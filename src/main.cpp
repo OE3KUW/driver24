@@ -329,12 +329,12 @@ void loop()
     static int t1 = 0;
     String battery;
     int akn;
-    int angleXY, angleYZ, angleZX;
+    static int angleXY, angleYZ, angleZX;
     int u, v, w, x, y, z, n;
-
+    long a, b;
+    static int maxa = 0, mina = 0xffff, maxb, minb = 0xffff; 
+    float r, m;
     String winkel;
-    
-
 
     ws.cleanupClients();
 
@@ -374,12 +374,6 @@ void loop()
                   y = Wire.read();
                   z = Wire.read();
 
-
-                Serial.print("*");
-            }
-            else
-            {
-                Serial.print("-");
             }
 
             //angleXY = atan2(-y,  x) / M_PI * 180;  if (angleXY < 0) angleXY += 360;
@@ -390,8 +384,25 @@ void loop()
             //y = angleYZ;
             //z = angleZX;
 
+
+            a = ((unsigned char)(u + 128) << 8 ) + v;
+            b = ((unsigned char)(y + 128) << 8 ) + z;
+
+            if (a > maxa) maxa = a; 
+            if (b > maxb) maxb = b; 
+            
+            if (a < mina) mina = a;
+            if (b < minb) minb = b; 
+
+            r = (a - ((maxa + mina) / 2.)) / ((maxa - mina) / 2.); // Mittelwert / Amplitude
+            m = (b - ((maxb + minb) / 2.)) / ((maxb - minb) / 2.);
+           
+            angleXY = (atan2(r, m) / M_PI)  * 180.;  
+            if (angleXY < 0) angleXY += 360;
+            
              
-            sprintf(text,"akn %d n: %d u %d v %d w %d x %d y %d z %d", akn, n, u, v, w,  x, y, z);
+            sprintf(text,"r %.2f m %.2f | angle %03d | u %03d v %03d | w %03d x %03d | y %03d z %03d", 
+            r, m, angleXY, u, v, w,  x, y, z);
             Serial.println(text);
     }
 
@@ -483,6 +494,10 @@ void loop()
 
             if (LDir == H) winkelL = winkelL + vL/10.; else winkelL = winkelL - vL/10.;
             if (RDir == H) winkelL = winkelL + vR/10.; else winkelL = winkelL - vR/10.;
+
+            winkelL = - angleXY; // driver 24 ! 
+//            Serial.print("WinkelL: ");
+//            Serial.println(winkelL);
 
             if (abs((winkelL - oldWinkelL)) > 0.1) 
             {
