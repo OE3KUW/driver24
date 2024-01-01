@@ -1,0 +1,87 @@
+html 
+{
+    font-family: Verdana; 
+    text-align: center;
+}
+
+h1 
+{
+    font-size: 1.8rem; 
+    color: #ffffff;  
+}
+
+.topnav
+{
+    overflow: hidden;
+    background-color: #0A1128;  
+}
+
+body
+{
+    margin:0;
+}
+
+.content 
+{
+    padding: 50px;
+}
+
+.card-grid
+{
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+}
+.card-grid
+{
+    background-color: white;
+    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+}
+.card-title
+{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #034078;
+}
+.state
+{
+    font-size: 1.2rem;
+    color: #1282A2;
+}
+
+.battery
+{
+    font-size: 1.2rem;
+    color: #1c1b1b;
+}
+
+button
+{
+    border: none;
+    color: #FEFCFB;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 100px;
+    border-radius: 6px;
+    transition-duration: 0.6s;
+}
+.button-on
+{
+    background-color: #6ef116;
+}
+.button-on:hover
+{
+    background-color: #f6ee05;
+}
+.button-off
+{
+    background-color: #0c0c0c;
+}
+.button-off:hover
+{
+    background-color: #3d0520;
+}
